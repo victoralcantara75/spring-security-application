@@ -1,7 +1,5 @@
 package com.secutiry.controllers;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.secutiry.entities.Role;
 import com.secutiry.entities.User;
 import com.secutiry.repositories.UserRepository;
