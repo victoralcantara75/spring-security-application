@@ -1,0 +1,5 @@
+azure bd
+nome do recurso: bd-estudo
+nome do servidor: bd-estudo
+nome usuario admin: victoralcantara
+senha: @BDestudoapi
