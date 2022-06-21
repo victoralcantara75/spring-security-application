@@ -49,6 +49,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Object> insertUser(@RequestBody User user){
         try{
+            user.encryptPassword();
             return ResponseEntity.ok().body(userRepository.save(user));
         }catch(Exception ex){
             return ResponseEntity.internalServerError().body(ex.getMessage());

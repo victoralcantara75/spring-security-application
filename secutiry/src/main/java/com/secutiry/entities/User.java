@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @Entity
@@ -43,6 +44,11 @@ public class User {
     User (String name, String password){
         this.setName(name);
         this.setPassword(password);
+    }
+
+    public void encryptPassword(){
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        this.setPassword(bcrypt.encode(this.password));
     }
 
     public void setId(UUID id){

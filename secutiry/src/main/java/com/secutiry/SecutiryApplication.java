@@ -3,7 +3,8 @@ package com.secutiry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+// @SpringBootApplication (exclude = {SecurityAutoConfiguration.class})
+@SpringBootApplication 
 public class SecutiryApplication {
 
 	public static void main(String[] args) {
