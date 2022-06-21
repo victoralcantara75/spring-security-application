@@ -7,8 +7,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.secutiry.security.filters.CustomAuthenticationFilter;
+import com.secutiry.security.filters.CustomAuthorizationFilter;
 import com.secutiry.services.UserService;
 
 @EnableWebSecurity
@@ -31,8 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/login").permitAll();
+        http.authorizeRequests().antMatchers("/api/login", "/api/token/refresh").permitAll();
         http.authorizeRequests().antMatchers("/api/**").authenticated();
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilter(customAuthenticationFilter);
     }
     
