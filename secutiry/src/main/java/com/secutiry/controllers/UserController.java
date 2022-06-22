@@ -1,5 +1,6 @@
 package com.secutiry.controllers;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,14 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Object> insertUser(@RequestBody User user){
         try{
+
+            Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
+            if (optionalUser.isPresent())
+                throw new Exception("Username already exists!");
+
             user.encryptPassword();
             return ResponseEntity.ok().body(userRepository.save(user));
+            
         }catch(Exception ex){
             return ResponseEntity.internalServerError().body(ex.getMessage());
         }

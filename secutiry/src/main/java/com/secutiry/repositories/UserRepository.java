@@ -10,5 +10,5 @@ import com.secutiry.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
-    public Optional<User> findByName(String name);
+    public Optional<User> findByUsername(String username);
 }

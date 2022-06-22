@@ -43,7 +43,7 @@ public class TokenController {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
-                Optional<User> optionalUser = userRepository.findByName(username);
+                Optional<User> optionalUser = userRepository.findByUsername(username);
                 
                 if (optionalUser.isEmpty()) throw new Exception("Username not found!");
                 User user = optionalUser.get();

@@ -31,6 +31,9 @@ public class User {
     @Column
     private String name;
 
+    @Column
+    private String username;
+
     @Column String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -65,6 +68,14 @@ public class User {
 
     public String getName(){
         return this.name;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+    public String getUsername(){
+        return this.username;
     }
 
     public void setPassword(String password){

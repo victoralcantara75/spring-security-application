@@ -1,6 +1,7 @@
 package com.secutiry.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,8 +34,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/login", "/api/token/refresh").permitAll();
-        http.authorizeRequests().antMatchers("/api/**").authenticated();
+        http.authorizeRequests().antMatchers("/api/login", "/api/token/refresh", "api/ping").permitAll();
+
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/users", "/api/roles", "/api/users/**/add-role").hasAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/roles").hasAuthority("ADMIN");
+
+        http.authorizeRequests().antMatchers(HttpMethod.GET ,"/api/users/**").hasAnyAuthority("USER", "ADMIN");
+
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilter(customAuthenticationFilter);
     }
