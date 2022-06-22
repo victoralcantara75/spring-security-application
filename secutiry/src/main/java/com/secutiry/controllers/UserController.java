@@ -53,7 +53,7 @@ public class UserController {
 
             Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
             if (optionalUser.isPresent())
-                throw new Exception("Username already exists!");
+                return ResponseEntity.badRequest().body("Username already exists!");
 
             user.encryptPassword();
             return ResponseEntity.ok().body(userRepository.save(user));

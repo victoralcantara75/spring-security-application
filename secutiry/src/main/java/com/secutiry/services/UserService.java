@@ -2,7 +2,6 @@ package com.secutiry.services;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +43,7 @@ public class UserService implements UserDetailsService{
         userRepository.save(user);
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
@@ -52,12 +52,7 @@ public class UserService implements UserDetailsService{
             throw new UsernameNotFoundException("Username not found!");
 
         User user = optionalUser.get();
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
-
-        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.rolesToSimpleAuthorities());
     }
     
 }

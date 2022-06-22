@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
@@ -34,7 +35,8 @@ public class User {
     @Column
     private String username;
 
-    @Column String password;
+    @Column 
+    private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable( name = "users_roles", 
@@ -52,6 +54,14 @@ public class User {
     public void encryptPassword(){
         BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
         this.setPassword(bcrypt.encode(this.password));
+    }
+
+    public Collection<SimpleGrantedAuthority> rolesToSimpleAuthorities(){
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        this.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });
+        return authorities;
     }
 
     public void setId(UUID id){
